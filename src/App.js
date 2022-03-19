@@ -1,25 +1,19 @@
-import logo from './logo.svg';
-import './App.css';
+import Navbar from "./components/layout/Navbar";
+import Footer from "./components/layout/Footer";
+import Card from "./components/layout/utils/Card";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <div className="container mx-auto max-w-lg flex flex-col justify-between h-screen gap-3">
+            <Navbar />
+            <main className="flex flex-col gap-2">
+                <Card category="Needs" total={70} max={500} />
+                <Card category="Wants" total={26} max={300} />
+                <Card category="Savings" total={120} max={200} />
+            </main>
+            <Footer />
+        </div>
+    );
 }
 
 export default App;
