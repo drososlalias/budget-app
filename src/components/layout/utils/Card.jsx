@@ -1,6 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-function Card({ category, total, max }) {
+function Card({ category, slug, total, max }) {
     const percentage = Math.floor((total / max) * 100);
 
     return (
@@ -18,7 +19,7 @@ function Card({ category, total, max }) {
                         <p className="text-xs">{percentage}%</p>
                     </div>
                 </div>
-                <button className="btn btn-primary w-1/4 text-xs self-end mb-2 mr-2">See expenses</button>
+                <Link to={`/expenses/${slug}`} className="btn btn-primary w-1/4 text-xs self-end mb-2 mr-2">See expenses</Link>
             </div>
         </div>
     );

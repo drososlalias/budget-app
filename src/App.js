@@ -1,18 +1,32 @@
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
-import Card from "./components/layout/utils/Card";
+import Home from "./pages/Home";
+import NotFound from "./pages/NotFound";
+import Alert from "./components/layout/Alert";
+import { MainProvider } from "./context/main-context/MainContext";
+import { AlertProvider } from "./context/alert/AlertContext";
+import Expenses from "./pages/Expenses";
 
 function App() {
     return (
-        <div className="container mx-auto max-w-lg flex flex-col justify-between h-screen gap-3">
-            <Navbar />
-            <main className="flex flex-col gap-2">
-                <Card category="Needs" total={70} max={500} />
-                <Card category="Wants" total={26} max={300} />
-                <Card category="Savings" total={120} max={200} />
-            </main>
-            <Footer />
-        </div>
+        <MainProvider>
+            <AlertProvider>
+                <Router>
+                    <div className="container mx-auto max-w-lg flex flex-col justify-between h-screen gap-3">
+                        <Navbar />
+                        <Alert />
+                        <Routes>
+                            <Route path="/" element={<Home />} />
+                            <Route path="/expenses/:slug" element={<Expenses />} />
+                            <Route path="/notfound" element={<NotFound />} />
+                            <Route path="/*" element={<NotFound />} />
+                        </Routes>
+                        <Footer />
+                    </div>
+                </Router>
+            </AlertProvider>
+        </MainProvider>
     );
 }
 
