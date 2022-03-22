@@ -1,25 +1,19 @@
-import { useEffect, useContext } from "react";
+import { useContext } from "react";
 import Card from "../components/layout/utils/Card";
 import MainContext from "../context/main-context/MainContext";
-import { getCategoriesData } from "../context/main-context/MainAction";
 
 function Home() {
-    const { categories, dispatch, loading } = useContext(MainContext);
-
-    const getData = async () => {
-        const data = await getCategoriesData();
-        dispatch({ type: "GET_CATEGORIES_DATA", payload: data });
-    };
-
-    useEffect(() => {
-        dispatch({ type: "SET_LOADING" });
-        getData();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    const { categories, loading } = useContext(MainContext);
 
     if (loading) return <div>Loading...</div>;
 
-    return <main className="flex flex-col gap-2">{categories && categories.map((cat) => <Card key={cat.id} category={cat.name} slug={cat.slug} total={cat.total} max={cat.max} />)}</main>;
+    if (categories.length < 1) return <h3>No Data were found</h3>;
+
+    return (
+        <main className="flex flex-col gap-2">
+            {categories && categories.map((cat) => <Card key={cat.id} category={cat.name} slug={cat.slug} total={cat.total} max={cat.max} />)}
+        </main>
+    );
 }
 
 export default Home;

@@ -7,13 +7,22 @@ const local = axios.create({
 });
 
 export const getExpenses = async () => {
-    const { data } = local.get("/expenses");
-    if (data.api_status) return data.results;
-    return data.msg;
+    const { data } = await local.get('/expenses');
+    return data;
 };
 
 export const getCategoriesData = async () => {
     const { data } = await local.get("/categories");
-    if (data.api_status) return data.results;
-    return data.msg;
+    return data;
+};
+
+export const addExpense = async (payload) => {
+    try {
+        const { data } = await local.post("/expenses", {
+            ...payload,
+        });
+        return data;
+    } catch (err) {
+        return { error: "An error occured." };
+    }
 };

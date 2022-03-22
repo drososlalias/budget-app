@@ -1,24 +1,35 @@
 import { useState, useContext } from "react";
 import MainContext from "../../../context/main-context/MainContext";
 import AlertContext from "../../../context/alert/AlertContext";
+import { addExpense } from "../../../context/main-context/MainAction";
 
 function Modal() {
-    const { categories } = useContext(MainContext);
+    const { categories, dispatch } = useContext(MainContext);
     const { setAlert } = useContext(AlertContext);
 
     const [description, setDescription] = useState("");
     const [amount, setAmount] = useState(null);
     const [category, setCategory] = useState("");
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (!description || !amount || !category) {
-            setAlert("All fields are required", "error");
+            return setAlert("All fields are required", "error");
         }
-        const categoryId = categories.filter(cat => cat.name == category)[0].id
-
-        // TODO: add expense - create the api route to add 
+        const categoryId = categories.filter((cat) => cat.name === category)[0].id;
+        const payload = {
+            description,
+            amount,
+            categoryId,
+        };
+        const res = await addExpense(payload);
+        if (res.api_status) {
+            dispatch({ type: "ADD_EXPENSE", payload: res.payload });
+            setAlert("Expense added successfully", "success");
+        } else {
+            return setAlert(`${res.error}`, "error");
+        }
     };
 
     return (
@@ -28,7 +39,7 @@ function Modal() {
             </label>
             <input type="checkbox" id="my-modal-4" className="modal-toggle" />
             <label htmlFor="my-modal-4" className="modal cursor-pointer">
-                <label className="modal-box relative max-w-80 h-full max-h-96 overflow-hidden" htmlFor>
+                <label className="modal-box relative max-w-80 h-full max-h-96 overflow-hidden" htmlFor="my-modal-4">
                     <div className="flex flex-col gap-5">
                         <h3 className="text-lg font-bold text-center">Add an expense</h3>
                         <div className="flex justify-evenly ">
@@ -53,12 +64,12 @@ function Modal() {
                         </div>
                         <input
                             onChange={(e) => setDescription(e.target.value)}
-                            className="py-2 font-bold text-center bg-gray-800 self-center w-72 rounded-3xl"
+                            className="py-2 font-bold text-center bg-neutral-focus self-center w-72 rounded-3xl"
                             placeholder="Enter description"
                         />
                         <input
                             onChange={(e) => setAmount(e.target.value)}
-                            className="py-2 font-bold text-center bg-gray-800  self-center w-52 rounded-3xl"
+                            className="py-2 font-bold text-center bg-neutral-focus  self-center w-52 rounded-3xl"
                             placeholder="Enter amount"
                         />
                         <button type="submit" className="btn btn-primary w-1/3 self-center">
