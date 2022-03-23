@@ -1,7 +1,13 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
-function Card({ category, slug, total, max }) {
+function Card({ id, category, slug, max ,expenses }) {
+    let total = 0;
+    expenses
+        .filter((exp) => exp.category_id === id)
+        .forEach((el) => {
+            total += +el.amount;
+        });
+
     const percentage = Math.floor((total / max) * 100);
     const addCurrencySign = (num) => {
         return new Intl.NumberFormat("de-DE", { style: "currency", currency: localStorage.getItem("currency") || "EUR" }).format(num);

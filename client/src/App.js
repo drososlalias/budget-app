@@ -25,29 +25,22 @@ function App() {
     const getData = async () => {
         const data = await getCategoriesData();
         if (data.api_status) {
-            dispatch({ type: "GET_CATEGORIES_DATA", payload: data.results });
+            localStorage.setItem("categories", JSON.stringify(data.results));
+            dispatch({ type: "GET_CATEGORIES", payload: data.results });
         }
     };
 
     useEffect(() => {
-        if (!localStorage.getItem("categories")) {
-            localStorage.setItem(
-                "categories",
-                JSON.stringify({
-                    wants: 1,
-                    needs: 2,
-                    savings: 3,
-                }),
-            );
-        }
-    }, []);
-
-    useEffect(() => {
         dispatch({ type: "SET_LOADING" });
-        getData();
+        if (!localStorage.getItem("categories")) {
+            getData();
+        } else {
+            dispatch({ type: "GET_CATEGORIES", payload: JSON.parse(localStorage.getItem("categories")) });
+        }
         fetchExpenses();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
     return (
         <Router>
             <div className="container mx-auto max-w-2xl flex flex-col justify-between h-screen ">

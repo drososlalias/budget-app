@@ -6,11 +6,11 @@ import ExpensesTable from "../components/layout/utils/ExpensesTable";
 function Expenses() {
     const { slug } = useParams();
 
-    const catId = JSON.parse(localStorage.getItem('categories'))[`${slug}`]
-
+    const catId = JSON.parse(localStorage.getItem('categories')).filter(cat => cat.slug === slug).pop().id
+    
     const { categories, loading, expenses } = useContext(MainContext);
     const expensesPerCategory = expenses.filter(exp => exp.category_id === catId)
-
+    
     if (loading) return <div>Loading...</div>;
 
     if (categories && expensesPerCategory.length < 1)

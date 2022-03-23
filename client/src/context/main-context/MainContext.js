@@ -6,7 +6,7 @@ const MainContext = createContext();
 export const MainProvider = ({ children }) => {
     const initialState = {
         categories: [],
-        loading: false,
+        loading: true,
         expenses: [],
     };
 
