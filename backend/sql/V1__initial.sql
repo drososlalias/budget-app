@@ -1,9 +1,8 @@
 CREATE TABLE IF NOT EXISTS categories (
     id int not null auto_increment primary key,
     name varchar(50) not null,
-    slug varchar(50) not null,
-    total decimal(6,2) not null,
-    max decimal(4) not null
+    max int not null,
+    slug varchar(50) not null
 );
 
 CREATE TABLE IF NOT EXISTS expenses (
@@ -15,8 +14,9 @@ CREATE TABLE IF NOT EXISTS expenses (
     foreign key(category_id) references categories(id) on update cascade on delete cascade
 );
 
-INSERT INTO categories(name,slug,total,max)
+-- put any value you want in ? when migrating 
+INSERT INTO categories(name,max,slug)
 VALUES
-    ("Wants", "wants", 0 , 500),
-    ("Needs", "needs" , 0 , 300),
-    ("Savings", "savings", 0 , 200);
+    ("Wants", ?, "wants"),
+    ("Needs", ?, "needs"),
+    ("Savings", ?, "savings");
