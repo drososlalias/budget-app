@@ -1,0 +1,21 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js"
+  },
+  "author": "Drosos Lalias",
+  "license": "MIT",
+  "devDependencies": {
+    "@faker-js/faker": "^6.0.0",
+    "mysql2": "^2.3.3",
+    "nodemon": "^2.0.15",
+    "winston": "^3.6.0"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.3"
+  }
+}
