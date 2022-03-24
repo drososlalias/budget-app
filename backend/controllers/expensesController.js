@@ -1,7 +1,7 @@
 const { pool } = require("../db/db");
 
 const getExpenses = async (req, res) => {
-    let query = "SELECT * FROM expenses";
+    let query = 'SELECT * FROM expenses WHERE MONTH(expense_date) = MONTH(CURRENT_DATE())';
     if (req.query?.cat) query += ` WHERE category_id=${req.query.cat}`;
     const [rows] = await pool.query(query);
     if (rows.length > 0)
