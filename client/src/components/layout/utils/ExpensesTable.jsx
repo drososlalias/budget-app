@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 function ExpensesTable({ expenses, slug }) {
     return (
         <div className="overflow-x-auto">
@@ -18,7 +20,7 @@ function ExpensesTable({ expenses, slug }) {
                                 <td>{expense.id}</td>
                                 <td>{expense.description}</td>
                                 <td>{expense.amount}</td>
-                                <td>{expense.expense_date.split("T")[0]}</td>
+                                <td>{moment(expense.expense_date).format('LLL')}</td>
                                 <td>{slug}</td>
                             </tr>
                         ))}

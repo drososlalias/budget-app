@@ -27,6 +27,7 @@ const mainReducer = (state, action) => {
                         description: action.payload.description,
                         amount: action.payload.amount,
                         category_id: action.payload.categoryId,
+                        expense_date: action.payload.expenseDate
                     },
                 ],
             };

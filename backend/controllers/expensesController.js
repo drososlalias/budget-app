@@ -17,9 +17,10 @@ const getExpenses = async (req, res) => {
 
 const addExpense = async (req, res) => {
     try {
+        const date = new Date().toISOString().slice(0, 19).replace('T', ' ');
         const { categoryId, description, amount } = req.body;
         if (!categoryId || !description || !amount) return res.json({ api_status: 0, msg: "failure", error: "invalid parameter types" });
-        const query1 = `INSERT INTO expenses(description,amount,category_id) VALUES ('${description}' , ${amount} , ${categoryId})`;
+        const query1 = `INSERT INTO expenses(description,amount,category_id,expense_date) VALUES ('${description}' , ${amount} , ${categoryId}, '${date}')`;
         const [rows] = await pool.query(query1);
         const newExpenseId = rows.insertId;
         return res.json({
@@ -30,9 +31,11 @@ const addExpense = async (req, res) => {
                 description,
                 amount,
                 categoryId,
+                expenseDate: date
             },
         });
     } catch (err) {
+        console.log(err)
         res.json({ api_status: 0, msg: "Internal Server Error" });
     }
 };
